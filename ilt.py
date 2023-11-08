@@ -185,4 +185,4 @@ def ilt(t, F, bound, Nz, alpha, F_error=None, verbose=False):
     #    return z, f, res_lsq, res_reg
     #else:
     #    #return z, f, res_lsq, res_reg, chi2
-    return z, f, F_fit, res_lsq, res_reg, chi2
+    return z, f, F_fit #, res_lsq, res_reg, chi2
