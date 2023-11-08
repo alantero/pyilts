@@ -20,7 +20,7 @@ import pandas as pd
 
 
 
-def ilt(t, F, bound, Nz, alpha, F_error=None):
+def ilt(t, F, bound, Nz, alpha, F_error=None, verbose=False):
     """
     DISCRIPTION:
     -----------
@@ -112,8 +112,9 @@ def ilt(t, F, bound, Nz, alpha, F_error=None):
     Z = Z.T
     H = np.diag(H)
 
-    print( '\n-------------------------------')
-    print( '1st SVD: rank(H) = %d' % np.linalg.matrix_rank(H) )
+    if verbose:
+        print( '\n-------------------------------')
+        print( '1st SVD: rank(H) = %d' % np.linalg.matrix_rank(H) )
 
     # 2nd SVD of C*Z*inv(H) = Q*S*W^T
     Hinv = np.diag(1.0/np.diag(H))
@@ -129,7 +130,9 @@ def ilt(t, F, bound, Nz, alpha, F_error=None):
     W_svd = W_svd.T
 
     S = np.diag(S)
-    print( '2nd SVD: rank(S) = %d' % np.linalg.matrix_rank(S) )
+    
+    if verbose:
+        print( '2nd SVD: rank(S) = %d' % np.linalg.matrix_rank(S) )
 
     # construct GammaTilde & Stilde
     # ||GammaTilde - Stilde*f5||^2 = ||Xi||^2
@@ -139,8 +142,10 @@ def ilt(t, F, bound, Nz, alpha, F_error=None):
     Salpha = np.sqrt(Sdiag**2 + alpha**2)
     GammaTilde = Gamma*Sdiag/Salpha
     Stilde = np.diag(Salpha)
-    print( 'regularized: rank(Stilde) = %d' % np.linalg.matrix_rank(Stilde) )
-    print( '-------------------------------')
+
+    if verbose:
+        print( 'regularized: rank(Stilde) = %d' % np.linalg.matrix_rank(Stilde) )
+        print( '-------------------------------')
 
     # construct LDP matrices G = Z*inv(H)*W*inv(Stilde), B = -G*GammaTilde
     # LDP: ||Xi||^2 = min, with constraint G*Xi >= B
@@ -172,7 +177,8 @@ def ilt(t, F, bound, Nz, alpha, F_error=None):
 
         chi2_ndf = chi2/(len(F))
 
-        print("chi2: ", chi2, chi2_ndf)
+        if verbose:
+            print("chi2: ", chi2, chi2_ndf)
 
 
     #if F_error is  None:
