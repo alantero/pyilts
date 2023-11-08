@@ -160,7 +160,8 @@ def ilt(t, F, bound, Nz, alpha, F_error=None):
 
     # residuals
     #res_lsq = F - np.dot(C, zf)
-    res_lsq = F - np.dot(C_ext, zf)
+    F_fit = np.dot(C_ext, zf)
+    res_lsq = F - F_fit#np.dot(C_ext, zf)
 
     res_reg = np.dot(R, zf)
     
@@ -174,8 +175,8 @@ def ilt(t, F, bound, Nz, alpha, F_error=None):
         print("chi2: ", chi2, chi2_ndf)
 
 
-    if F_error is  None:
-        return z, f, res_lsq, res_reg
-    else:
-        #return z, f, res_lsq, res_reg, chi2
-        return z, f, np.sum(res_lsq**2), np.sum(res_reg**2), chi2
+    #if F_error is  None:
+    #    return z, f, res_lsq, res_reg
+    #else:
+    #    #return z, f, res_lsq, res_reg, chi2
+    return z, f, np.sum(res_lsq**2), np.sum(res_reg**2), chi2, F_fit
